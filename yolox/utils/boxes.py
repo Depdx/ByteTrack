@@ -46,10 +46,7 @@ def postprocess(prediction, num_classes, conf_thre=0.7, nms_thre=0.45):
             continue
         # Get score and class with highest confidence
         class_conf, class_pred = torch.max(
-            # 47 is cup label
-            image_pred[:, [5 + 47]],
-            1,
-            keepdim=True,
+            image_pred[:, 5 : 5 + num_classes], 1, keepdim=True
         )
 
         conf_mask = (image_pred[:, 4] * class_conf.squeeze() >= conf_thre).squeeze()
@@ -57,6 +54,13 @@ def postprocess(prediction, num_classes, conf_thre=0.7, nms_thre=0.45):
         # Detections ordered as (x1, y1, x2, y2, obj_conf, class_conf, class_pred)
         detections = torch.cat((image_pred[:, :5], class_conf, class_pred.float()), 1)
         detections = detections[conf_mask]
+        if not detections.size(0):
+            continue
+
+        # Filter detections for the specified target class
+        target_class_mask = detections[:, -1] == 47
+        detections = detections[target_class_mask]
+
         if not detections.size(0):
             continue
 
