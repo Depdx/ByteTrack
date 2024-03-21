@@ -298,15 +298,9 @@ def imageflow_demo(predictor, vis_folder, current_time, args):
         ret_val, frame = cap.read()
         if ret_val:
             outputs, img_info = predictor.inference(frame, timer)
-            print(outputs[0].shape)
-            print(len(outputs))
-            print(outputs)
-            class_to_keep = 47  # cup
-            if outputs[class_to_keep] is not None:
+            if outputs[0] is not None:
                 online_targets = tracker.update(
-                    outputs[class_to_keep],
-                    [img_info["height"], img_info["width"]],
-                    exp.test_size,
+                    outputs[0], [img_info["height"], img_info["width"]], exp.test_size
                 )
                 online_tlwhs = []
                 online_ids = []
