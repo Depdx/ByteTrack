@@ -196,6 +196,8 @@ class Predictor(object):
             outputs = postprocess(
                 outputs, self.num_classes, self.confthre, self.nmsthre
             )
+            print(len(outputs))
+            print(outputs)
             # logger.info("Infer time: {:.4f}s".format(time.time() - t0))
         return outputs, img_info
 
