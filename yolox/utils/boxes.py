@@ -47,7 +47,7 @@ def postprocess(prediction, num_classes, conf_thre=0.7, nms_thre=0.45):
         # Get score and class with highest confidence
         class_conf, class_pred = torch.max(
             # 47 is cup label
-            image_pred[:, 5 : 5 + 47],
+            image_pred[:, [5 + 47 + 1]],
             1,
             keepdim=True,
         )
