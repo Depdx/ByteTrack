@@ -45,7 +45,6 @@ def postprocess(prediction, num_classes, conf_thre=0.7, nms_thre=0.45):
         if not image_pred.size(0):
             continue
         # Get score and class with highest confidence
-        print(image_pred.shape)
         class_conf, class_pred = torch.max(
             image_pred[:, 47].unsqueeze(1), 1, keepdim=True
         )
