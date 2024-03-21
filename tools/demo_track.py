@@ -193,11 +193,6 @@ class Predictor(object):
             outputs = self.model(img)
             if self.decoder is not None:
                 outputs = self.decoder(outputs, dtype=outputs.type())
-            print(outputs.shape)
-            print(len(outputs))
-            print(outputs[0].shape)
-            print("outputs: ", outputs)
-
             outputs = postprocess(
                 outputs, self.num_classes, self.confthre, self.nmsthre
             )
