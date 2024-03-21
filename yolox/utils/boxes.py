@@ -46,7 +46,7 @@ def postprocess(prediction, num_classes, conf_thre=0.7, nms_thre=0.45):
             continue
         # Get score and class with highest confidence
         class_conf, class_pred = torch.max(
-            image_pred[:, 5 : 5 + num_classes], 1, keepdim=True
+            image_pred[:, 5 + 47].unsqueeze(1), 1, keepdim=True
         )
 
         conf_mask = (image_pred[:, 4] * class_conf.squeeze() >= conf_thre).squeeze()
@@ -64,7 +64,6 @@ def postprocess(prediction, num_classes, conf_thre=0.7, nms_thre=0.45):
             nms_thre,
         )
         detections = detections[nms_out_index]
-        print(detections.shape)
         if output[i] is None:
             output[i] = detections
         else:
