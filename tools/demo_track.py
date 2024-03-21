@@ -191,11 +191,13 @@ class Predictor(object):
         with torch.no_grad():
             timer.tic()
             outputs = self.model(img)
-            print(len(outputs))
-            print(outputs[0].shape)
-            print(outputs)
             if self.decoder is not None:
                 outputs = self.decoder(outputs, dtype=outputs.type())
+            print(outputs.shape)
+            print(len(outputs))
+            print(outputs[0].shape)
+            print("outputs: ", outputs)
+
             outputs = postprocess(
                 outputs, self.num_classes, self.confthre, self.nmsthre
             )
