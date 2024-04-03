@@ -59,7 +59,7 @@ def postprocess(prediction, num_classes, conf_thre=0.7, nms_thre=0.45):
 
         # Filter detections for the specified target class
         print(detections[:, -1])
-        target_class_mask = detections[:, -1] == 47
+        target_class_mask = detections[:, -1] == 41
         detections = detections[target_class_mask]
 
         if not detections.size(0):
