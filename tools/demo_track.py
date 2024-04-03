@@ -104,6 +104,13 @@ def make_parser():
     parser.add_argument(
         "--mot20", dest="mot20", default=False, action="store_true", help="test mot20."
     )
+    parser.add_argument(
+        "--classes",
+        type=int,
+        dest="classes",
+        default=1,
+        help="only track the specific class in the dataset",
+    )
     return parser
 
 
@@ -148,6 +155,7 @@ class Predictor(object):
         decoder=None,
         device=torch.device("cpu"),
         fp16=False,
+        classes=None,
     ):
         self.model = model
         self.decoder = decoder
@@ -157,6 +165,7 @@ class Predictor(object):
         self.test_size = exp.test_size
         self.device = device
         self.fp16 = fp16
+        self.classes = classes
         if trt_file is not None:
             from torch2trt import TRTModule
 
@@ -194,7 +203,7 @@ class Predictor(object):
             if self.decoder is not None:
                 outputs = self.decoder(outputs, dtype=outputs.type())
             outputs = postprocess(
-                outputs, self.num_classes, self.confthre, self.nmsthre
+                outputs, self.num_classes, self.confthre, self.nmsthre, self.classes
             )
             # logger.info("Infer time: {:.4f}s".format(time.time() - t0))
         return outputs, img_info

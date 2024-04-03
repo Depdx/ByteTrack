@@ -30,7 +30,7 @@ def filter_box(output, scale_range):
     return output[keep]
 
 
-def postprocess(prediction, num_classes, conf_thre=0.7, nms_thre=0.45):
+def postprocess(prediction, num_classes, conf_thre=0.7, nms_thre=0.45, classes=None):
     box_corner = prediction.new(prediction.shape)
     box_corner[:, :, 0] = prediction[:, :, 0] - prediction[:, :, 2] / 2
     box_corner[:, :, 1] = prediction[:, :, 1] - prediction[:, :, 3] / 2
@@ -58,8 +58,9 @@ def postprocess(prediction, num_classes, conf_thre=0.7, nms_thre=0.45):
             continue
 
         # Filter detections for the specified target class
-        target_class_mask = detections[:, -1] == 41
-        detections = detections[target_class_mask]
+        if classes is not None:
+            target_class_mask = detections[:, -1] == classes
+            detections = detections[target_class_mask]
 
         if not detections.size(0):
             continue
