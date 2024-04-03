@@ -58,9 +58,8 @@ def postprocess(prediction, num_classes, conf_thre=0.7, nms_thre=0.45, classes=1
             continue
 
         # Filter detections for the specified target class
-        if classes is not None:
-            target_class_mask = detections[:, -1] == classes
-            detections = detections[target_class_mask]
+        target_class_mask = detections[:, -1] == classes
+        detections = detections[target_class_mask]
 
         if not detections.size(0):
             continue
