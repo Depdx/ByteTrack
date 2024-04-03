@@ -610,7 +610,7 @@ class MOTEvaluator:
             cls = output[:, 6]
             scores = output[:, 4] * output[:, 5]
             for ind in range(bboxes.shape[0]):
-                label = self.dataloader.dataset.class_ids[int(cls[ind])-1]
+                label = self.dataloader.dataset.class_ids[int(cls[ind])]
                 pred_data = {
                     "image_id": int(img_id),
                     "category_id": label,
